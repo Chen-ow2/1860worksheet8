@@ -1,0 +1,63 @@
+CHIP DecoderSegmentC{
+    IN A, B, C, D;
+    OUT c;
+
+    PARTS:
+    Not(in=A, out=notA);
+    Not(in=B, out=notB);
+    Not(in=C, out=notC);
+    Not(in=D, out=notD);
+
+    And(a=notA, b=notB, out=notAnotB);
+    And(a=notAnotB, b=notC, out=m1a);
+    And(a=m1a, b=notD, out=term1);  // !A !B !C !D
+
+    And(a=notAnotB, b=C, out=m2a);
+    And(a=m2a, b=notD, out=term2);  // !A !B C !D
+
+    And(a=notAnotB, b=C, out=m3a);
+    And(a=m3a, b=D, out=term3);     // !A !B C D
+
+    And(a=notA, b=B, out=notAB);
+    And(a=notAB, b=notC, out=m4a);
+    And(a=m4a, b=D, out=term4);     // !A B !C D
+
+    And(a=notAB, b=C, out=m5a);
+    And(a=m5a, b=notD, out=term5);  // !A B C !D
+
+    And(a=notAB, b=C, out=m6a);
+    And(a=m6a, b=D, out=term6);     // !A B C D
+
+    And(a=A, b=notB, out=AnotB);
+    And(a=AnotB, b=notC, out=m7a);
+    And(a=m7a, b=notD, out=term7);  // A !B !C !D
+
+    And(a=AnotB, b=notC, out=m8a);
+    And(a=m8a, b=D, out=term8);     // A !B !C D
+
+    And(a=AnotB, b=C, out=m9a);
+    And(a=m9a, b=notD, out=term9);  // A !B C !D
+
+    And(a=A, b=B, out=AB);
+    And(a=AB, b=notC, out=m10a);
+    And(a=m10a, b=notD, out=term10); // A B !C !D
+
+    And(a=AB, b=C, out=m11a);
+    And(a=m11a, b=notD, out=term11); // A B C !D
+
+    And(a=AB, b=C, out=m12a);
+    And(a=m12a, b=D, out=term12);    // A B C D
+
+    // Combination
+    Or(a=term1, b=term2, out=or1);
+    Or(a=or1, b=term3, out=or2);
+    Or(a=or2, b=term4, out=or3);
+    Or(a=or3, b=term5, out=or4);
+    Or(a=or4, b=term6, out=or5);
+    Or(a=or5, b=term7, out=or6);
+    Or(a=or6, b=term8, out=or7);
+    Or(a=or7, b=term9, out=or8);
+    Or(a=or8, b=term10, out=or9);
+    Or(a=or9, b=term11, out=or10);
+    Or(a=or10, b=term12, out=c);
+}

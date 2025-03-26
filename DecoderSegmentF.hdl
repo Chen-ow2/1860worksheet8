@@ -1,0 +1,29 @@
+CHIP DecoderSegmentF{
+    IN A, B, C, D;
+    OUT f;
+
+    PARTS:
+    Not(in=A, out=nota);
+    Not(in=B, out=notb);
+    Not(in=C, out=notc);
+    Not(in=D, out=notd);
+
+    And(a=nota, b=notb, out=x);
+
+    And(a=nota, b=notc, out=yp);
+    And(a=yp, b=notd, out=y);
+
+    And(a=nota, b=C, out=zp);
+    And(a=zp, b=D, out=z);
+
+    And(a=A, b=notc, out=wp);
+    And(a=wp, b=D, out=w);
+
+    And(a=A, b=notb, out=up);
+    And(a=up, b=notd, out=u);
+
+    Or(a=x, b=y, out=alpha);
+    Or(a=alpha, b=z, out=beta);
+    Or(a=beta, b=w, out=gamma);
+    Or(a=gamma, b=u, out=f);
+}
